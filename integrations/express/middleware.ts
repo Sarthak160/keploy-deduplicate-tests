@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express from "express";
 import Keploy, { HTTP } from "../../src/keploy";
 import { Request, Response, NextFunction } from "express";
+import http from "http";
 
 
 // middleware
@@ -14,13 +14,17 @@ export default function middleware(
     res.on("finish", () => {
       afterMiddleware(keploy, req, res);
     });
+    next();
 
   };
 }
 
 
 export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
-        GetCoverage();
+  const id = req.get("KEPLOY_TEST_ID");
+  console.log(id);
+        
+  GetCoverage();
 }
 
 // isJsonValid checks whether o is a valid JSON or not
@@ -39,8 +43,8 @@ function GetCoverage() {
   // while (1) {
   // @ts-ignore
 
-  let coverageData =global.__coverage__[
-      "/Users/sarthak_1/Documents/Keploy/trash/landing-page/javascript/server.js"
+  let coverageData = global.__coverage__[
+      "/home/ubuntu/sarthak/landing-page/javascript/server.js"
     ];
   console.log("Inside GetCoverage " + count);
   console.log(coverageData);
@@ -70,7 +74,7 @@ function GetCoverage() {
     }
   }
   // @ts-ignore
-  executedLinesByFile["/Users/sarthak_1/Documents/Keploy/trash/landing-page/javascript/server.js"] = Array.from(executedLines).sort((a, b) => a - b);
+  executedLinesByFile["/home/ubuntu/sarthak/landing-page/javascript/server.js"] = Array.from(executedLines).sort((a, b) => a - b);
   // }
   // @ts-ignore
   executedLinebyEachTest.push({ ...hitCounts });
@@ -78,3 +82,57 @@ function GetCoverage() {
   console.log("Executed lines by file:", executedLinesByFile);
   // extract s from the coverage data
 }
+
+
+
+function sendCustomRequest(
+  url: string,
+  method: string,
+  headers: any,
+  body: string
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const options: http.RequestOptions = {
+      method,
+      headers,
+    };
+
+    const req = http.request(url, options, (res) => {
+      let responseData = "";
+
+      res.on("data", (chunk) => {
+        responseData += chunk;
+      });
+
+      res.on("end", () => {
+        resolve(responseData);
+      });
+    });
+
+    req.on("error", (error) => {
+      reject(error);
+    });
+
+    if (body) {
+      req.write(body);
+    }
+
+    req.end();
+  });
+}
+
+// Example usage
+const url = "http://example.com";
+const method = "POST";
+const headers = {
+  "Content-Type": "application/json",
+};
+const body = JSON.stringify({ message: "Hello" });
+
+sendCustomRequest(url, method, headers, body)
+  .then((response) => {
+    console.log("Response:", response);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
