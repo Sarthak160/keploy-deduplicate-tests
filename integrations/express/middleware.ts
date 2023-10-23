@@ -38,14 +38,12 @@ function GetCoverage() {
   // @ts-ignore
   for (const filename in global.__coverage__) {
     console.log("FIlenamae", filename);
-  }
+  
 
   // while (1) {
   // @ts-ignore
 
-  let coverageData = global.__coverage__[
-      "/home/ubuntu/sarthak/landing-page/javascript/server.js"
-    ];
+  let coverageData = global.__coverage__[filename];
   console.log("Inside GetCoverage " + count);
   console.log(coverageData);
   let executedLinesByFile = {};
@@ -74,13 +72,14 @@ function GetCoverage() {
     }
   }
   // @ts-ignore
-  executedLinesByFile["/home/ubuntu/sarthak/landing-page/javascript/server.js"] = Array.from(executedLines).sort((a, b) => a - b);
+  executedLinesByFile[filename] = Array.from(executedLines).sort((a, b) => a - b);
   // }
   // @ts-ignore
   executedLinebyEachTest.push({ ...hitCounts });
 
   console.log("Executed lines by file:", executedLinesByFile);
   // extract s from the coverage data
+}
 }
 
 

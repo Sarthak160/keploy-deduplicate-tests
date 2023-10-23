@@ -3,7 +3,7 @@
 // import * as grpc from "@grpc/grpc-js";
 // import * as protoLoader from "@grpc/proto-loader";
 // import { ProtoGrpcType } from "../proto/services";
-import path from "path";
+// import path from "path";
 // import { RegressionServiceClient } from "../proto/services/RegressionService";
 // import { TestCaseReq } from "../proto/services/TestCaseReq";
 // import { TestCase } from "../proto/services/TestCase";
@@ -49,27 +49,5 @@ type ServerConfig = {
 
 export default class Keploy {
 
-  ServerConfig({
-    url = process.env.KEPLOY_SERVER_URL || "localhost:6789",
-    licenseKey = process.env.KEPLOY_LICENSE_KEY || "",
-  }) {
-    return { url, licenseKey };
-  }
-
-  validateAppConfig({
-
-    testCasePath = path.resolve(
-      process.env.KEPLOY_TEST_CASE_PATH || "./keploy/tests"
-    ),
-    mockPath = path.resolve(process.env.KEPLOY_MOCK_PATH || "./keploy/mocks"),
-  }) {
-
-
-    return {
-      testCasePath,
-      mockPath,
-    };
-  }
-
-
+  
 }
