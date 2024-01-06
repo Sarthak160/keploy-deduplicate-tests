@@ -58,6 +58,7 @@ function GetCoverage() {
   console.log("Inside GetCoverage");
   count++;
   // iterate over global.__coverage__
+  let executedLinesByFile = {};
   // @ts-ignore
   for (const filename in global.__coverage__) {
     console.log("FIlenamae", filename);
@@ -68,7 +69,6 @@ function GetCoverage() {
   let coverageData = global.__coverage__[filename];
   console.log("Inside GetCoverage " + count);
   console.log(coverageData);
-  let executedLinesByFile = {};
 
   // for (const filePath of Object.keys(coverageData)) {
   const executedLines = new Set();
@@ -105,7 +105,7 @@ function GetCoverage() {
 }
   console.log("Executed lines by file:", executedLinebyEachTest);
 
-  return executedLinebyEachTest;
+  return executedLinesByFile;
 }
 
 
