@@ -46,7 +46,7 @@ const yamlData = yaml.dump(existingData);
 fs.writeFileSync(filePath, yamlData, 'utf-8');
 
 // Log to the console
-console.log("Executed lines by file:", executedLinebyEachTest);
+console.log("Executed lines by file:", data);
 console.log("Data has been appended and logged to", filePath);
 }
 
@@ -99,12 +99,10 @@ function GetCoverage() {
   // @ts-ignore
   executedLinebyEachTest.push({ ...hitCounts });
 
-  // console.log("Executed lines by file:", executedLinesByFile);
+  console.log("Executed lines by file:", executedLinesByFile);
 
   // extract s from the coverage data
 }
-  console.log("Executed lines by file:", executedLinebyEachTest);
-
   return executedLinesByFile;
 }
 
