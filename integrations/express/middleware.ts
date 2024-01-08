@@ -45,6 +45,9 @@ export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
     console.error("Error reading existing file:", error);
   }
 
+  console.log("Existing data:", existingData);
+  console.log("Current data:", currentData);
+  
   // Add or update the entry for the current id
   existingData.push(currentData);
 
