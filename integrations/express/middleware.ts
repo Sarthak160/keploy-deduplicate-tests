@@ -24,7 +24,7 @@ export default function middleware(
 
 export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
   const id = req.get("KEPLOY_TEST_ID");
-  console.log(id);
+  console.log("THIS IS THE TEST NAME --",id);
 
   let executedLinesByFile = GetCoverage();
   let existingData = [];
