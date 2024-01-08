@@ -27,6 +27,9 @@ export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
   console.log("THIS IS THE TEST NAME --",id);
 
   let executedLinesByFile = GetCoverage();
+  let perTestExecutedLinesByFile = {
+    id: executedLinesByFile
+  };
   let existingData = [];
   const filePath = 'output.yaml';
   try {
@@ -38,7 +41,7 @@ export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
   }
 
   // Append the new data to the array
-  existingData.push(executedLinesByFile);
+  existingData.push(perTestExecutedLinesByFile);
 
   // Convert the array to YAML format
   const yamlData = yaml.dump(existingData);
