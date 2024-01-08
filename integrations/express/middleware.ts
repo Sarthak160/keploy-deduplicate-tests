@@ -24,26 +24,30 @@ export default function middleware(
 
 export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
   let id = req.get("KEPLOY-TEST-ID");
-  console.log("THIS IS THE TEST NAME --",id);
+  console.log("THIS IS THE TEST NAME --", id);
 
   let executedLinesByFile = GetCoverage();
-  let perTestExecutedLinesByFile = {
-    id: executedLinesByFile
+
+  // Read existing content of the file (if any)
+  let existingData = {
+    id: id,
+    executedLinesByFile: executedLinesByFile
   };
-  let existingData = [];
   const filePath = 'output.yaml';
+
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
-    existingData = yaml.load(fileContent) || [];
+    existingData = yaml.load(fileContent) || {};
   } catch (error) {
     // Handle the case where the file doesn't exist or is not valid YAML
     console.error("Error reading existing file:", error);
   }
 
-  // Append the new data to the array
-  existingData.push(perTestExecutedLinesByFile);
+  // Add or update the entry for the current id
+  existingData.id = id;
+  existingData.executedLinesByFile = executedLinesByFile;
 
-  // Convert the array to YAML format
+  // Convert the object to YAML format
   const yamlData = yaml.dump(existingData);
 
   // Write the updated YAML data back to the file
