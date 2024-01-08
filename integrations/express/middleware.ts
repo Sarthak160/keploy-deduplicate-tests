@@ -11,9 +11,9 @@ export default function middleware(
   keploy: Keploy
 ): (req: Request, res: Response, next: NextFunction) => void {
   console.log("Inside middleware...");
-
   return (req: Request, res: Response, next: NextFunction) => {
     res.on("finish", () => {
+
       afterMiddleware(keploy, req, res);
     });
     next();
@@ -23,7 +23,7 @@ export default function middleware(
 
 
 export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
-  const id = req.get("KEPLOY_TEST_ID");
+  let id = req.get("KEPLOY-TEST-ID");
   console.log("THIS IS THE TEST NAME --",id);
 
   let executedLinesByFile = GetCoverage();
