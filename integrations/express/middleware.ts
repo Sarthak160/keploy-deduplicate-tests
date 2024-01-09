@@ -10,7 +10,7 @@ const yaml = require('js-yaml');
 export default function middleware(
   keploy: Keploy
 ): (req: Request, res: Response, next: NextFunction) => void {
-  console.log("Inside middleware...");
+  // console.log("Inside middleware...");
   return (req: Request, res: Response, next: NextFunction) => {
     res.on("finish", () => {
 
@@ -24,7 +24,7 @@ export default function middleware(
 
 export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
   let id = req.get("KEPLOY-TEST-ID");
-  console.log("THIS IS THE TEST NAME --", id);
+  // console.log("THIS IS THE TEST NAME --", id);
 
   let executedLinesByFile = GetCoverage();
 
@@ -33,7 +33,7 @@ export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
     executedLinesByFile: executedLinesByFile
   };
 
-  const filePath = 'output.yaml';
+  const filePath = 'dedupData.yaml';
 
   let existingData = [];
 
@@ -45,8 +45,8 @@ export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
     console.error("Error reading existing file:", error);
   }
 
-  console.log("Existing data:", existingData);
-  console.log("Current data:", currentData);
+  // console.log("Existing data:", existingData);
+  // console.log("Current data:", currentData);
   
   // Add or update the entry for the current id
   existingData.push(currentData);
@@ -58,8 +58,8 @@ export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
   fs.writeFileSync(filePath, yamlData, 'utf-8');
 
   // Log to the console
-  console.log("Executed lines by file:", executedLinesByFile);
-  console.log("Data has been appended and logged to", filePath);
+  // console.log("Executed lines by file:", executedLinesByFile);
+  // console.log("Data has been appended and logged to", filePath);
 }
 
 // isJsonValid checks whether o is a valid JSON or not
@@ -67,20 +67,18 @@ export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
 let count = 0;
 const executedLinebyEachTest = new Array();
 function GetCoverage() {
-  console.log("Inside GetCoverage");
+  // console.log("Inside GetCoverage");
   count++;
   let executedLinesByFile = {};
   // iterate over global.__coverage__
   // @ts-ignore
   for (const filename in global.__coverage__) {
-    console.log("FIlenamae", filename);
-
-
+    // console.log("FIlenamae", filename);
     // while (1) {
     // @ts-ignore
     let coverageData = global.__coverage__[filename];
-    console.log("Inside GetCoverage " + count);
-    console.log(coverageData);
+    // console.log("Inside GetCoverage " + count);
+    // console.log(coverageData);
 
 
     // for (const filePath of Object.keys(coverageData)) {
@@ -112,7 +110,7 @@ function GetCoverage() {
     // @ts-ignore
     executedLinebyEachTest.push({ ...hitCounts });
 
-    console.log("Executed lines by file:", executedLinesByFile);
+    // console.log("Executed lines by file:", executedLinesByFile);
     // extract s from the coverage data
   }
   return executedLinesByFile;
