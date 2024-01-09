@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Keploy from "../../src/keploy";
 import { Request, Response, NextFunction } from "express";
-import http from "http";
 const fs = require('fs');
 const yaml = require('js-yaml');
 
