@@ -9,7 +9,6 @@ const keploy = new Keploy();
 
 // @ts-ignore
 Hook(["express"], function (exports) {
-  console.log("Hooked express");
   const expressApp = exports;
   function keployWrappedExpress() {
     const keployApp = expressApp();

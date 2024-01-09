@@ -24,7 +24,6 @@ export default function middleware(
 
 export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
   let id = req.get("KEPLOY-TEST-ID");
-  // console.log("THIS IS THE TEST NAME --", id);
 
   let executedLinesByFile = GetCoverage();
 
@@ -42,7 +41,7 @@ export function afterMiddleware(keploy: Keploy, req: Request, res: Response) {
     existingData = yaml.load(fileContent) || [];
   } catch (error) {
     // Handle the case where the file doesn't exist or is not valid YAML
-    console.error("Error reading existing file:", error);
+    // console.error("Error reading existing file:", error);
   }
 
   // console.log("Existing data:", existingData);
@@ -115,57 +114,3 @@ function GetCoverage() {
   }
   return executedLinesByFile;
 }
-
-
-
-function sendCustomRequest(
-  url: string,
-  method: string,
-  headers: any,
-  body: string
-): Promise<any> {
-  return new Promise((resolve, reject) => {
-    const options: http.RequestOptions = {
-      method,
-      headers,
-    };
-
-    const req = http.request(url, options, (res) => {
-      let responseData = "";
-
-      res.on("data", (chunk) => {
-        responseData += chunk;
-      });
-
-      res.on("end", () => {
-        resolve(responseData);
-      });
-    });
-
-    req.on("error", (error) => {
-      reject(error);
-    });
-
-    if (body) {
-      req.write(body);
-    }
-
-    req.end();
-  });
-}
-
-// Example usage
-const url = "http://example.com";
-const method = "POST";
-const headers = {
-  "Content-Type": "application/json",
-};
-const body = JSON.stringify({ message: "Hello" });
-
-sendCustomRequest(url, method, headers, body)
-  .then((response) => {
-    console.log("Response:", response);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
